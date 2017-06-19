@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+    <EditText
+        android:id="@+id/edittext_contact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:imeOptions="actionNext"/>
+    <ListView
+        android:id="@+id/listView"
+        android:layout_below="@+id/edittext_contact"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <TextView
+        android:id="@+id/SlideBar_text"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="#898785"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:textSize="40sp"/>
+    <com.luoli.contactlist.readcontacts.view.SlideBar
+        android:id="@+id/slideBar"
+        android:layout_width="30dp"
+        android:layout_height="400dp"
+        android:background="@drawable/shap_slidebar_bg"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"/>
+</RelativeLayout>
