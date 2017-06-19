@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private PopupWindow popupWindow;
     private CustomPopWindow popWindow;
     private Button btnPopupwindow2;
+    private Button countDownTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 弹出popupwindow
         btnPopupwindow2 = (Button) findViewById(R.id.btn_popupwindow2);
         btnPopupwindow2.setOnClickListener(this);
+        //　倒计时
+        countDownTime = (Button) findViewById(R.id.countDownTime);
+        countDownTime.setOnClickListener(this);
+
 
     }
 
@@ -91,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -105,6 +111,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_popupwindow2:
                 startActivity(new Intent(MainActivity.this, PopupWindow2Activity.class));
+                break;
+            case R.id.countDownTime:
+                startActivity(new Intent(MainActivity.this,CountDownTimeActivity.class));
                 break;
             case R.id.btn_popupwindow:
 //                View view = View.inflate(this,R.layout.view_popup_window,null);

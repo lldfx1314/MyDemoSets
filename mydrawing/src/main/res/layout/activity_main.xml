@@ -53,9 +53,10 @@
             android:text="弹出对话框2" />
 
         <Button
+            android:id="@+id/countDownTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="弹出动画" />
+            android:text="倒计时" />
 
         <com.luoli.mydrawing.view.MyDrawTextView
             android:layout_width="wrap_content"
