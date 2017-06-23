@@ -1,28 +1,32 @@
 package com.luoli.mydrawing;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import com.luoli.mydrawing.eventbus.FirstEvent;
+import com.luoli.mydrawing.eventbus.SecondEvent;
 import com.luoli.mydrawing.view.CustomPopWindow;
 import com.luoli.mydrawing.view.MyView;
 import com.luoli.mydrawing.view.PopUpMenuView;
+
+import de.greenrobot.event.EventBus;
+import de.greenrobot.event.Subscribe;
+import de.greenrobot.event.ThreadMode;
+
+//import org.greenrobot.eventbus.EventBus;
+//import org.greenrobot.eventbus.Subscribe;
+//import org.greenrobot.eventbus.ThreadMode;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnSystemUiVisibilityChangeListener {
 
@@ -43,59 +47,67 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         requestWindowFeature(Window.FEATURE_ACTION_MODE_OVERLAY);
         setContentView(R.layout.activity_main);
 //        setStatusBarTransparent();
-        final MyView myView = (MyView) findViewById(R.id.myview);
-        findViewById(R.id.reset).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                myView.reset();
-            }
-        });
-        findViewById(R.id.btn_animate).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, AnimateActivity.class));
-            }
-        });
-        Button reset1 = (Button) findViewById(R.id.reset1);
-        reset1.setOnClickListener(this);
-        btnTop = (Button) findViewById(R.id.btn_top);
-        btnTop.setOnClickListener(this);
-        btnDownload = (Button) findViewById(R.id.btn_download);
-        btnDownload.setOnClickListener(this);
-
-        popUpMenuView = (PopUpMenuView) findViewById(R.id.popUpMenuView);
-        popUpMenuView.setOnClickListener(this);
-        // 弹出popupwindow
-        btnPopupwindow = (Button) findViewById(R.id.btn_popupwindow);
-        btnPopupwindow.setOnClickListener(this);
-        // 弹出popupwindow
-        btnPopupwindow2 = (Button) findViewById(R.id.btn_popupwindow2);
-        btnPopupwindow2.setOnClickListener(this);
-        //　倒计时
-        countDownTime = (Button) findViewById(R.id.countDownTime);
-        countDownTime.setOnClickListener(this);
-
-
+        // 注册EventBus
+        EventBus.getDefault().register(this);
+        findView();
+        RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
+        new RecyclerView(this).setRecycledViewPool(viewPool);
+        viewPool.setMaxRecycledViews(0,10);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MainThread)
+    public void onFirstEvent(FirstEvent event){
+        String msg = "onFirstEvent收到了消息：" + event.getMsg();
+        Log.d("luoli", msg);
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Subscribe(threadMode = ThreadMode.PostThread)
+    public void onSecondEvent(SecondEvent event){
+        String msg = "onSecondEvent收到了消息：" + event.getMsg();
+        Log.d("luoli", msg);
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+
+    /******************************************/
+//    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+//    public void onEventMainThread(StateEvent event) {
+//        Log.d(TAG, "StateEvent is emitted");
+//    }
+//    public void onEventMainThread(FirstEvent event) {
+//
+//        String msg = "onEventMainThread收到了消息：" + event.getMsg();
+//        Log.d("luoli", msg);
+////        tv.setText(msg);
+//        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+//    }
+
 
     @Override
     protected void onResume() {
         super.onResume();
         int[] location = new int[2];
-        btnTop.getLocationOnScreen(location);
+        btnDownload.getLocationOnScreen(location);
         int x = location[0];
         int y = location[1];
         Toast.makeText(this, "哈哈x：" + x + "++y：" + y, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        View view = getCurrentFocus();
-
-        return super.dispatchTouchEvent(ev);
-
+    public void goToSend(View view) {
+        startActivity(new Intent(MainActivity.this, SendMessageActivity.class));
     }
 
+    public void verificationCode(View view){
+        startActivity(new Intent(MainActivity.this, VerificationCodeActivity.class));
+    }
 
     @Override
     public void onClick(View v) {
@@ -113,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(MainActivity.this, PopupWindow2Activity.class));
                 break;
             case R.id.countDownTime:
-                startActivity(new Intent(MainActivity.this,CountDownTimeActivity.class));
+                startActivity(new Intent(MainActivity.this, CountDownTimeActivity.class));
                 break;
             case R.id.btn_popupwindow:
 //                View view = View.inflate(this,R.layout.view_popup_window,null);
@@ -154,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
     /**
      * 处理弹窗显示内容、点击事件等逻辑
      *
@@ -186,6 +199,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         lp.alpha = 0.5f;
         this.getWindow().setAttributes(lp);
         this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+    }
+
+    private void findView() {
+        final MyView myView = (MyView) findViewById(R.id.myview);
+        findViewById(R.id.reset).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myView.reset();
+            }
+        });
+        findViewById(R.id.btn_animate).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, AnimateActivity.class));
+            }
+        });
+        Button reset1 = (Button) findViewById(R.id.reset1);
+        reset1.setOnClickListener(this);
+        btnTop = (Button) findViewById(R.id.btn_top);
+        btnTop.setOnClickListener(this);
+        btnDownload = (Button) findViewById(R.id.btn_download);
+        btnDownload.setOnClickListener(this);
+
+        popUpMenuView = (PopUpMenuView) findViewById(R.id.popUpMenuView);
+        popUpMenuView.setOnClickListener(this);
+        // 弹出popupwindow
+        btnPopupwindow = (Button) findViewById(R.id.btn_popupwindow);
+        btnPopupwindow.setOnClickListener(this);
+        // 弹出popupwindow
+        btnPopupwindow2 = (Button) findViewById(R.id.btn_popupwindow2);
+        btnPopupwindow2.setOnClickListener(this);
+        //　倒计时
+        countDownTime = (Button) findViewById(R.id.countDownTime);
+        countDownTime.setOnClickListener(this);
     }
 
     /**

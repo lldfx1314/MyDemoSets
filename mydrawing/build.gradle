@@ -29,9 +29,18 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
+//    compile 'com.zhy:okhttputils:2.0.0'
+//    compile 'com.google.code.gson:gson:2.2.4'
     //noinspection GradleCompatible
     compile 'com.android.support:recyclerview-v7:24.0.0'
+//    compile 'org.greenrobot:eventbus:3.0.0'
+//    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'de.greenrobot:eventbus:3.0.0-beta1'
 //    compile 'com.dyhdyh.support:count-down-timer:1.0.0'
+    compile ('com.alibaba.android:vlayout:1.0.7@aar') {
+        transitive = true
+    }
+    compile 'tech.michaelx.authcode:authcode:1.0.0' // 添加依赖
 }
 repositories {
     mavenCentral()

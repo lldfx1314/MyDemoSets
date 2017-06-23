@@ -57,6 +57,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="倒计时" />
+        <Button
+            android:id="@+id/go_sent_mess"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="goToSend"
+            android:text="去发消息" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="verificationCode"
+            android:text="自动填写验证码" />
 
         <com.luoli.mydrawing.view.MyDrawTextView
             android:layout_width="wrap_content"

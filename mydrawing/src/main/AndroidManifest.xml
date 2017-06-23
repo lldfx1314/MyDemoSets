@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.luoli.mydrawing">
-
+    <!--用于读取短信验证码,缺一不可-->
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -23,7 +25,8 @@
         <activity
             android:name=".PopupWindow2Activity"/>
         <activity android:name=".CountDownTimeActivity"/>
-
+        <activity android:name=".SendMessageActivity"/>
+        <activity android:name=".VerificationCodeActivity"/>
         <!--android:theme="@style/AppTheme.Base"-->
     </application>
 
