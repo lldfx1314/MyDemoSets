@@ -1,1 +1,1 @@
-include ':ContactList', ':mydrawing'
+include ':ContactList', ':mydrawing', ':guideviewtest', ':guideviewtest_two'

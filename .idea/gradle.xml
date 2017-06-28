@@ -9,6 +9,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/ContactList" />
+            <option value="$PROJECT_DIR$/guideviewtest" />
+            <option value="$PROJECT_DIR$/guideviewtest_two" />
             <option value="$PROJECT_DIR$/mydrawing" />
           </set>
         </option>
@@ -16,6 +18,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/ContactList" />
+            <option value="$PROJECT_DIR$/guideviewtest" />
+            <option value="$PROJECT_DIR$/guideviewtest_two" />
             <option value="$PROJECT_DIR$/mydrawing" />
           </set>
         </option>
