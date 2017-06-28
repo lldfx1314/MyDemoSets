@@ -21,6 +21,8 @@ public class MainActivity extends BasicActivity {
             }
         });
 
+
+
         setGuideResId(R.drawable.xinshou1);//添加引导页
         setGuideResId(R.drawable.xinshou3);//添加引导页
         setGuideResId(R.drawable.xinshou5);//添加引导页
